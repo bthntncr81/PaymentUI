@@ -1,0 +1,11 @@
+.phone-field {
+  ::ng-deep input,
+  ::ng-deep span,
+  ::ng-deep textarea,
+  ::ng-deep .iti,
+  ngx-intl-tel-input {
+    width: 100%;
+  }
+}
+
+@import url("https://fonts.googleapis.com/css2?family=josefin+Sans:wght@400;500;600;700&display=swap");
