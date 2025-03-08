@@ -1,6 +1,6 @@
 <div *ngIf="!(onProcess && html)" class="container">
   <div class="row" style="height: 100vh">
-    <div class="col-lg-6" style="border-right: 1px solid transparent">
+    <div class="col-lg-6 px-5" style="border-right: 1px solid transparent">
       <form
         *ngIf="!isError && !isReponseDone"
         [formGroup]="checkoutForm"
@@ -244,9 +244,23 @@
         </div>
       </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-6 px-5">
       <div class="py-5">
-        <h2 class="mb-4 text-primary">Sipariş Detayları</h2>
+        <div class="text-align-center w-100 d-flex justify-content-center mb-5">
+          <img
+            style="
+              border-radius: 12px;
+              width: 200px;
+              height: 100px;
+              object-fit: cover;
+            "
+            src="assets/scald.jpeg"
+            alt=""
+          />
+        </div>
+        <h2 class="mb-4 text-primary" style="color: #262fb9">
+          Sipariş Detayları
+        </h2>
         <ul
           class="list-group list-group-flush"
           style="font-size: 24px; background-color: transparent"
@@ -260,7 +274,9 @@
           </li>
         </ul>
         <div class="mt-4">
-          <h3 class="mb-3 text-primary">Sipariş Ürünleri</h3>
+          <h2 class="mb-3 text-primary" style="color: #262fb9">
+            Sipariş Ürünleri
+          </h2>
           <div class="row mb-5">
             <div
               *ngFor="let item of order?.items"
