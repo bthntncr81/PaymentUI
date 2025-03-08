@@ -152,3 +152,16 @@ body {
   .card:hover .card-inner {
   }
 }
+
+body {
+  background: linear-gradient(to right, #e3f2f9 50%, #cce7f4 50%);
+}
+.sphere {
+  width: 30px;
+  height: 30px;
+  background-color: #00aaff; /* Küre rengini buradan değiştirebilirsiniz */
+  border-radius: 50%; /* Yuvarlak yapmak için */
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2),
+    0 -15px 30px rgba(255, 255, 255, 0.3); /* Derinlik için gölge */
+  transform: perspective(600px) rotateX(15deg) rotateY(15deg); /* 3D etkisi */
+}

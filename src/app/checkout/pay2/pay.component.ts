@@ -2,7 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, ViewChild } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { DomSanitizer } from "@angular/platform-browser";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import {
   CountryISO,
   PhoneNumberFormat,
@@ -35,7 +35,7 @@ export class PayComponent {
   preferredCountries: CountryISO[] = [CountryISO.Turkey];
   expireDate: string = "12/25";
   separateDialCode = true;
-
+  order: any;
   isSuccess = false;
   onProcess: boolean = false;
   isError: boolean = false;
@@ -43,6 +43,7 @@ export class PayComponent {
   installmentArray: InstallmentListModel[] = [];
   constructor(
     private fb: FormBuilder,
+    private route: ActivatedRoute,
     private primengConfig: PrimeNGConfig,
     private signalR: SignalRService,
     private sanitizer: DomSanitizer,
@@ -53,14 +54,19 @@ export class PayComponent {
   ) {
     this.signalR.startConnection();
     this.signalR.paymentResult((data: any) => {
-      debugger;
       this.isReponseDone = true;
       if (data.statu === 1) {
         this.onProcess = false;
         this.isSuccess = true;
+
+        window.location.href =
+          "http://scald.shop/payments/iyzico/success/" + this.order.id;
       } else {
         this.onProcess = false;
         this.isError = true;
+
+        window.location.href =
+          "http://scald.shop/payments/iyzico/cancel" + this.order.id;
       }
     });
   }
@@ -68,16 +74,16 @@ export class PayComponent {
   getCountries() {
     this.countryService.getCountries().subscribe((res) => {
       this.countries = res;
-      console.log(res);
     });
   }
   getIpAddress() {
     this.ipService.getIpAddress().subscribe((res) => {
       this.checkoutForm.get("ipAddress")?.setValue(res.ip);
-      console.log(res);
     });
   }
+
   ngOnInit(): void {
+    this.getOrder();
     this.getCountries();
 
     this.primengConfig.ripple = true;
@@ -129,7 +135,7 @@ export class PayComponent {
       townName: [""], //done
       confirm: [true, Validators.requiredTrue], //onts
       returnURL: [
-        `http://localhost:5124/api/Payment/PaymentCallBack?bankCode=`,
+        `http://185.122.201.104:8003/api/Payment/PaymentCallBack?bankCode=`,
         Validators.required,
       ], //onts
       customerIPAddress: ["1.1.1.1", Validators.required], //onts
@@ -147,7 +153,7 @@ export class PayComponent {
       testPlatform: [true, Validators.required], //onts
     });
     this.getIpAddress();
-    this.checkoutForm.get("cardNumber")?.valueChanges.subscribe((res) => {
+    this.checkoutForm.get("cardNumber")?.valueChanges.subscribe((res: any) => {
       if (
         this.installmentStr !=
           this.checkoutForm
@@ -168,7 +174,7 @@ export class PayComponent {
         this.installmentStr = obj.bin;
         this.httpClient
           .post(
-            `http://localhost:5124/api/Payment/GetInstallment?bankCode=9997&merchantID=DASD&merchantUser=sandbox-ifkcjkaPdtshoWkt36gjOwpZ9Z5XsUZM&merchantPassword=sandbox-0PfKYCdPshA2ZhqfdGq6JxfB5dXQWeqa&merchantStorekey=123456&orderNumber=DASD`,
+            `http://185.122.201.104:8003/api/Payment/GetInstallment?bankCode=9997&merchantID=DASD&merchantUser=sandbox-ifkcjkaPdtshoWkt36gjOwpZ9Z5XsUZM&merchantPassword=sandbox-0PfKYCdPshA2ZhqfdGq6JxfB5dXQWeqa&merchantStorekey=123456&orderNumber=DASD`,
             obj
           )
           .subscribe({
@@ -181,12 +187,21 @@ export class PayComponent {
       }
     });
   }
-
+  getOrder() {
+    console.log(this.route.snapshot.params);
+    this.signalR
+      .getOrder((this.route.snapshot.queryParams as any).orderId)
+      .subscribe({
+        next: (res: any) => {
+          this.order = res.data;
+        },
+      });
+  }
   onSubmit() {
     this.checkoutForm
       .get("returnURL")
       ?.setValue(
-        `http://localhost:5124/api/Payment/PaymentCallBack?bankCode=${
+        `http://185.122.201.104:8003/api/Payment/PaymentCallBack?bankCode=${
           this.checkoutForm.get("bankCode")?.value
         }&merchantID=${
           this.checkoutForm.get("merchantID")?.value
@@ -221,7 +236,7 @@ export class PayComponent {
     if (this.checkoutForm.valid) {
       this.httpClient
         .post(
-          "http://localhost:5124/api/Payment/VirtualPOS3DResponse",
+          "http://185.122.201.104:8003/api/Payment/VirtualPOS3DResponse",
           this.checkoutForm.value
         )
         .subscribe({

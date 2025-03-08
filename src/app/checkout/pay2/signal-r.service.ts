@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import * as signalR from "@microsoft/signalr";
 
@@ -7,7 +8,11 @@ import * as signalR from "@microsoft/signalr";
 export class SignalRService {
   private hubConnection: signalR.HubConnection | any;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
+
+  getOrder(id: number) {
+  return  this.http.get("http://185.130.57.198:3001/orders/" + id);
+  }
 
   startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
