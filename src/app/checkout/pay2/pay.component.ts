@@ -135,7 +135,7 @@ export class PayComponent {
       townName: [""], //done
       confirm: [true, Validators.requiredTrue], //onts
       returnURL: [
-        `http://185.122.201.104:8003/api/Payment/PaymentCallBack?bankCode=`,
+        `http://185.130.57.198:8003/api/Payment/PaymentCallBack?bankCode=`,
         Validators.required,
       ], //onts
       customerIPAddress: ["1.1.1.1", Validators.required], //onts
@@ -174,7 +174,7 @@ export class PayComponent {
         this.installmentStr = obj.bin;
         this.httpClient
           .post(
-            `http://185.122.201.104:8003/api/Payment/GetInstallment?bankCode=9997&merchantID=DASD&merchantUser=sandbox-ifkcjkaPdtshoWkt36gjOwpZ9Z5XsUZM&merchantPassword=sandbox-0PfKYCdPshA2ZhqfdGq6JxfB5dXQWeqa&merchantStorekey=123456&orderNumber=DASD`,
+            `http://185.130.57.198:8003/api/Payment/GetInstallment?bankCode=9997&merchantID=DASD&merchantUser=sandbox-ifkcjkaPdtshoWkt36gjOwpZ9Z5XsUZM&merchantPassword=sandbox-0PfKYCdPshA2ZhqfdGq6JxfB5dXQWeqa&merchantStorekey=123456&orderNumber=DASD`,
             obj
           )
           .subscribe({
@@ -201,7 +201,7 @@ export class PayComponent {
     this.checkoutForm
       .get("returnURL")
       ?.setValue(
-        `http://185.122.201.104:8003/api/Payment/PaymentCallBack?bankCode=${
+        `http://185.130.57.198:8003/api/Payment/PaymentCallBack?bankCode=${
           this.checkoutForm.get("bankCode")?.value
         }&merchantID=${
           this.checkoutForm.get("merchantID")?.value
@@ -236,7 +236,7 @@ export class PayComponent {
     if (this.checkoutForm.valid) {
       this.httpClient
         .post(
-          "http://185.122.201.104:8003/api/Payment/VirtualPOS3DResponse",
+          "http://185.130.57.198:8003/api/Payment/VirtualPOS3DResponse",
           this.checkoutForm.value
         )
         .subscribe({
