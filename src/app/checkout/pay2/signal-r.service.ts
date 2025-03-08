@@ -11,7 +11,7 @@ export class SignalRService {
   constructor(private http: HttpClient) {}
 
   getOrder(id: number) {
-  return  this.http.get("http://185.130.57.198:3001/orders/" + id);
+    return this.http.get("https://payment.scald.shop/orders/" + id);
   }
 
   startConnection = () => {
