@@ -194,6 +194,7 @@ export class PayComponent {
       .subscribe({
         next: (res: any) => {
           this.order = res.data;
+          this.checkoutForm.get("amount")?.setValue(this.order.grand_total);
         },
       });
   }

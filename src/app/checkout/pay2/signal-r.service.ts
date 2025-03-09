@@ -16,7 +16,7 @@ export class SignalRService {
 
   startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("ws://localhost:5124/pay-hub", {
+      .withUrl("ws://payment.scald.shop/pay-hub", {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets,
       })
