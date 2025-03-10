@@ -60,13 +60,13 @@ export class PayComponent {
         this.isSuccess = true;
 
         window.location.href =
-          "http://scald.shop/payments/iyzico/success/" + this.order.id;
+          "https://scald.shop/payments/iyzico/success/" + this.order.id;
       } else {
         this.onProcess = false;
         this.isError = true;
 
         window.location.href =
-          "http://scald.shop/payments/iyzico/cancel" + this.order.id;
+          "https://scald.shop/payments/iyzico/cancel/" + this.order.id;
       }
     });
   }
