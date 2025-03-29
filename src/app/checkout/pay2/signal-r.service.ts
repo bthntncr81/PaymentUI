@@ -12,7 +12,7 @@ export class SignalRService {
 
   getOrder(id: number, projectId: number) {
     return this.http.get(
-      "https://order.scald.shop/orders/" + id + "&db_id" + projectId
+      "https://order.scald.shop/orders/" + id + "/" + projectId
     );
   }
   getPaymentInfo(projectId: number) {
