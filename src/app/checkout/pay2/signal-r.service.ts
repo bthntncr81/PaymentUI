@@ -10,10 +10,16 @@ export class SignalRService {
 
   constructor(private http: HttpClient) {}
 
-  getOrder(id: number) {
-    return this.http.get("https://order.scald.shop/orders/" + id);
+  getOrder(id: number, projectId: number) {
+    return this.http.get(
+      "https://order.scald.shop/orders/" + id + "/" + projectId
+    );
   }
-
+  getPaymentInfo(projectId: number) {
+    return this.http.get(
+      "https://order.scald.shop/payment-methods/" + projectId
+    );
+  }
   startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl("wss://payment.scald.shop/pay-hub", {

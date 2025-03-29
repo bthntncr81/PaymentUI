@@ -88,7 +88,7 @@ export class PayComponent {
 
     this.primengConfig.ripple = true;
     // Basket from localStorage
-
+    this.getPaymentInfo();
     this.checkoutForm = this.fb.group({
       cardNumber: [
         "",
@@ -124,8 +124,8 @@ export class PayComponent {
         "batuhanntuncerr@hotmail.com",
         [Validators.required, Validators.email],
       ], //done
-      name: ["Ömer", Validators.required], //done
-      surname: ["Tunçer", Validators.required], //done
+      name: ["", Validators.required], //done
+      surname: ["", Validators.required], //done
       phoneNumber: ["5056916831", [Validators.required]], //done
       addressDesc: ["cart curt", Validators.required], //done
       cityName: ["İstanbul", Validators.required], //done
@@ -141,17 +141,12 @@ export class PayComponent {
       customerIPAddress: ["1.1.1.1", Validators.required], //onts
       bankCode: ["9997", Validators.required], //onts  0046 9997
       merchantID: ["100100000", Validators.required], //onts
-      merchantUser: [
-        "sandbox-ifkcjkaPdtshoWkt36gjOwpZ9Z5XsUZM",
-        Validators.required,
-      ], //onts
-      merchantPassword: [
-        "sandbox-0PfKYCdPshA2ZhqfdGq6JxfB5dXQWeqa",
-        Validators.required,
-      ], //onts
+      merchantUser: ["", Validators.required], //onts
+      merchantPassword: ["", Validators.required], //onts
       merchantStorekey: ["123456", Validators.required], //onts
       testPlatform: [true, Validators.required], //onts
     });
+
     this.getIpAddress();
     this.checkoutForm.get("cardNumber")?.valueChanges.subscribe((res: any) => {
       if (
@@ -187,10 +182,29 @@ export class PayComponent {
       }
     });
   }
-  getOrder() {
-    console.log(this.route.snapshot.params);
+
+  getPaymentInfo() {
     this.signalR
-      .getOrder((this.route.snapshot.queryParams as any).orderId)
+      .getPaymentInfo(
+   
+        (this.route.snapshot.queryParams as any).db_id
+      )
+      .subscribe({
+        next: (res: any) => {
+          this.order = res.data;
+          this.checkoutForm.get("merchantUser")?.setValue(this.order.public);
+          this.checkoutForm
+            .get("merchantPassword")
+            ?.setValue(this.order.secret);
+        },
+      });
+  }
+  getOrder() {
+    this.signalR
+      .getOrder(
+        (this.route.snapshot.queryParams as any).orderId,
+        (this.route.snapshot.queryParams as any).db_id
+      )
       .subscribe({
         next: (res: any) => {
           this.order = res.data;

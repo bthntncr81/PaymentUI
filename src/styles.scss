@@ -36,6 +36,12 @@ body {
 }
 
 .pay-card {
+  margin-top: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+
   p {
     width: unset !important;
   }
@@ -164,4 +170,10 @@ body {
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2),
     0 -15px 30px rgba(255, 255, 255, 0.3); /* Derinlik için gölge */
   transform: perspective(600px) rotateX(15deg) rotateY(15deg); /* 3D etkisi */
+}
+
+@media (max-width: 500px) {
+  .card {
+    transform: scale(0.75);
+  }
 }
