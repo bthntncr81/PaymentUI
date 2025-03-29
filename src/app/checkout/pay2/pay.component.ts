@@ -191,7 +191,7 @@ export class PayComponent {
       )
       .subscribe({
         next: (res: any) => {
-          this.order = res.data;
+          this.order = res.data[0];
           this.checkoutForm.get("merchantUser")?.setValue(this.order.public);
           this.checkoutForm
             .get("merchantPassword")
