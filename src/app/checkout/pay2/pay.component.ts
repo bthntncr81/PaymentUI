@@ -106,7 +106,7 @@ export class PayComponent {
         null,
         [Validators.required, Validators.min(new Date().getFullYear())],
       ], //done
-      cardHolderName: ["Ömer Batuhan Tunçer", Validators.required], //done
+      cardHolderName: ["", Validators.required], //done
       cardCVV: [
         "000",
         [Validators.required, Validators.minLength(3), Validators.maxLength(4)],
@@ -185,10 +185,7 @@ export class PayComponent {
 
   getPaymentInfo() {
     this.signalR
-      .getPaymentInfo(
-   
-        (this.route.snapshot.queryParams as any).db_id
-      )
+      .getPaymentInfo((this.route.snapshot.queryParams as any).db_id)
       .subscribe({
         next: (res: any) => {
           this.order = res.data[0];
@@ -229,9 +226,19 @@ export class PayComponent {
         }&orderNumber=${this.checkoutForm.get("orderNumber")?.value}`
       );
 
+    var nameArray = this.name.split(" ");
+    var surname = nameArray[nameArray.length - 1];
+    (nameArray as Array<string>).splice(nameArray.length - 1, 1);
+    var firstName = "";
+    nameArray.forEach((element: string) => {
+      firstName = firstName + " " + element;
+    });
     this.checkoutForm
       .get("expiryMonth")
       ?.setValue(this.expireDate.substring(0, 2));
+
+    this.checkoutForm.get("name")?.setValue(firstName);
+    this.checkoutForm.get("surname")?.setValue(surname);
     this.checkoutForm
       .get("expiryYear")
       ?.setValue("20" + this.expireDate.substring(3, 5));
