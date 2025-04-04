@@ -15,6 +15,12 @@ export class SignalRService {
       "https://order.scald.shop/orders/" + id + "/" + projectId
     );
   }
+
+  getUser(id: number, projectId: number) {
+    return this.http.get(
+      "https://order.scald.shop/users/" + id + "/" + projectId
+    );
+  }
   getPaymentInfo(projectId: number) {
     return this.http.get(
       "https://order.scald.shop/payment-methods/" + projectId

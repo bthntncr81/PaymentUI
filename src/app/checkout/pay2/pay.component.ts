@@ -36,6 +36,7 @@ export class PayComponent {
   expireDate: string = "12/25";
   separateDialCode = true;
   order: any;
+  user: any;
   isSuccess = false;
   onProcess: boolean = false;
   isError: boolean = false;
@@ -128,7 +129,7 @@ export class PayComponent {
       surname: ["", Validators.required], //done
       phoneNumber: ["5056916831", [Validators.required]], //done
       addressDesc: ["cart curt", Validators.required], //done
-      cityName: ["İstanbul", Validators.required], //done
+      cityName: ["Düzce", Validators.required], //done
       country: ["TUR", Validators.required], //done
       postCode: ["81650", Validators.required], //done
       taxOffice: [""], //done
@@ -144,7 +145,7 @@ export class PayComponent {
       merchantUser: ["", Validators.required], //onts
       merchantPassword: ["", Validators.required], //onts
       merchantStorekey: ["123456", Validators.required], //onts
-      testPlatform: [true, Validators.required], //onts
+      testPlatform: [false, Validators.required], //onts
     });
 
     this.getIpAddress();
@@ -169,7 +170,11 @@ export class PayComponent {
         this.installmentStr = obj.bin;
         this.httpClient
           .post(
-            `https://payment.scald.shop/api/Payment/GetInstallment?bankCode=9997&merchantID=DASD&merchantUser=sandbox-ifkcjkaPdtshoWkt36gjOwpZ9Z5XsUZM&merchantPassword=sandbox-0PfKYCdPshA2ZhqfdGq6JxfB5dXQWeqa&merchantStorekey=123456&orderNumber=DASD`,
+            `https://payment.scald.shop/api/Payment/GetInstallment?bankCode=9997&merchantID=DASD&merchantUser=${this.checkoutForm.get(
+              "merchantUser"
+            )}&merchantPassword=${this.checkoutForm.get(
+              "merchantPassword"
+            )}&merchantStorekey=123456&orderNumber=DASD`,
             obj
           )
           .subscribe({
@@ -206,6 +211,29 @@ export class PayComponent {
         next: (res: any) => {
           this.order = res.data;
           this.checkoutForm.get("amount")?.setValue(this.order.grand_total);
+          this.checkoutForm
+            .get("orderNumber")
+            ?.setValue(this.order.order_number);
+
+          this.getUser(this.order.user_id);
+        },
+      });
+  }
+
+  getUser(user_id: number) {
+    this.signalR
+      .getOrder(user_id, (this.route.snapshot.queryParams as any).db_id)
+      .subscribe({
+        next: (res: any) => {
+          this.user = res.data;
+          this.checkoutForm.get("name")?.setValue(this.user.first_name);
+          this.checkoutForm.get("surname")?.setValue(this.user.last_name);
+          this.checkoutForm
+            .get("phoneNumber")
+            ?.setValue(this.user.phone_number);
+          this.checkoutForm.get("taxNumber")?.setValue(this.user.grand_total);
+          this.checkoutForm.get("emailAddress")?.setValue(this.user.email);
+          this.checkoutForm.get("amount")?.setValue(this.order.user);
         },
       });
   }
