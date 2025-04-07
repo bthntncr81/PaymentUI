@@ -232,7 +232,6 @@ export class PayComponent {
             ?.setValue(this.user.phone_number);
           this.checkoutForm.get("taxNumber")?.setValue(this.user.grand_total);
           this.checkoutForm.get("emailAddress")?.setValue(this.user.email);
-          this.checkoutForm.get("amount")?.setValue(this.order.user);
         },
       });
   }
