@@ -33,7 +33,7 @@ export class PayComponent {
   CountryISO = CountryISO;
   PhoneNumberFormat = PhoneNumberFormat;
   preferredCountries: CountryISO[] = [CountryISO.Turkey];
-  expireDate: string = "12/25";
+  expireDate: string = "";
   separateDialCode = true;
   order: any;
   user: any;
@@ -120,7 +120,7 @@ export class PayComponent {
           (Date.now() - new Date(1970, 0, 1).getTime()) / 1000
         ).toString(16),
       ], //onts
-      taxNumber: ["24956607526", Validators.required], //done
+      taxNumber: ["", Validators.required], //done
       emailAddress: [
         "batuhanntuncerr@hotmail.com",
         [Validators.required, Validators.email],
@@ -219,10 +219,9 @@ export class PayComponent {
         },
       });
   }
-
   getUser(user_id: number) {
     this.signalR
-      .getOrder(user_id, (this.route.snapshot.queryParams as any).db_id)
+      .getUser(user_id, (this.route.snapshot.queryParams as any).db_id)
       .subscribe({
         next: (res: any) => {
           this.user = res.data;

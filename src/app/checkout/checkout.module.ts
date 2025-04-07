@@ -21,12 +21,14 @@ import { CheckoutRoutingModule } from "./checkout-routing.module";
 import { CreditCardNumberMaskDirective } from "./pay2/creditCartNumberMask";
 import { CreditCardExpiryDateMaskDirective } from "./pay2/expireMonthMask";
 import { PayComponent } from "./pay2/pay.component";
+import { OnlyNumbersDirective } from "./pay2/only-number-directive";
 
 @NgModule({
   declarations: [
     PayComponent,
     CreditCardNumberMaskDirective,
     CreditCardExpiryDateMaskDirective,
+    OnlyNumbersDirective,
   ],
   imports: [
     CommonModule,
