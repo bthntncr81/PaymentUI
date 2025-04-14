@@ -37,6 +37,7 @@ export class PayComponent {
   separateDialCode = true;
   order: any;
   user: any;
+  db_name: any;
   isSuccess = false;
   onProcess: boolean = false;
   isError: boolean = false;
@@ -61,17 +62,15 @@ export class PayComponent {
         this.isSuccess = true;
 
         window.location.href =
-          `https://${
-            (this.route.snapshot.queryParams as any).db_id
-          }.posfix.shop/payments/iyzico/success/` + this.order.id;
+          `https://${this.db_name}.posfix.shop/payments/iyzico/success/` +
+          this.order.id;
       } else {
         this.onProcess = false;
         this.isError = true;
 
         window.location.href =
-          `https://${
-            (this.route.snapshot.queryParams as any).db_id
-          }.posfix.shop/payments/iyzico/cancel/` + this.order.id;
+          `https://${this.db_name}.posfix.shop/payments/iyzico/cancel/` +
+          this.order.id;
       }
     });
   }
@@ -224,6 +223,7 @@ export class PayComponent {
       });
   }
   getUser(user_id: number) {
+    this.db_name = (this.route.snapshot.queryParams as any).db_id;
     this.signalR
       .getUser(user_id, (this.route.snapshot.queryParams as any).db_id)
       .subscribe({
