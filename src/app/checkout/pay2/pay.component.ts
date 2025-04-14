@@ -39,6 +39,7 @@ export class PayComponent {
   user: any;
   db_name: any;
   isSuccess = false;
+  loader = false;
   onProcess: boolean = false;
   isError: boolean = false;
   isReponseDone: boolean = false;
@@ -57,6 +58,8 @@ export class PayComponent {
     this.signalR.startConnection();
     this.signalR.paymentResult((data: any) => {
       this.isReponseDone = true;
+      this.loader = false;
+
       if (data.statu === 1) {
         this.onProcess = false;
         this.isSuccess = true;
@@ -289,6 +292,7 @@ export class PayComponent {
       .get("cardCVV")
       ?.setValue(this.checkoutForm.get("cardCVV")?.value!.toString());
     if (this.checkoutForm.valid) {
+      this.loader = true;
       this.httpClient
         .post(
           "https://payment.posfix.shop/api/Payment/VirtualPOS3DResponse",

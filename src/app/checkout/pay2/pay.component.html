@@ -157,13 +157,19 @@
             <div>
               <button
                 pButton
-                style="border-radius: 6px"
+                style="
+                  border-radius: 6px;
+                  border: none;
+                  text-align: center;
+                "
                 class="w-100"
-                label="Checkout"
+                label="{{ !loader ? 'İşlemi Tamamla' : '' }}"
                 type="submit"
-                icon="pi pi-credit-card"
+                icon="{{ !loader ? 'pi pi-credit-card' : '' }}"
                 iconPos="right"
-              ></button>
+              >
+                <span *ngIf="loader" class="loader m-auto"></span>
+              </button>
             </div>
           </div>
         </div>
