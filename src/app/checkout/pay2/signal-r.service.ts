@@ -12,23 +12,23 @@ export class SignalRService {
 
   getOrder(id: number, projectId: number) {
     return this.http.get(
-      "https://order.scald.shop/orders/" + id + "/" + projectId
+      "https://order.posfix.shop/orders/" + id + "/" + projectId
     );
   }
 
   getUser(id: number, projectId: number) {
     return this.http.get(
-      "https://order.scald.shop/users/" + id + "/" + projectId
+      "https://order.posfix.shop/users/" + id + "/" + projectId
     );
   }
   getPaymentInfo(projectId: number) {
     return this.http.get(
-      "https://order.scald.shop/payment-methods/" + projectId
+      "https://order.posfix.shop/payment-methods/" + projectId
     );
   }
   startConnection = () => {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("wss://payment.scald.shop/pay-hub", {
+      .withUrl("wss://payment.posfix.shop/pay-hub", {
         skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets,
       })

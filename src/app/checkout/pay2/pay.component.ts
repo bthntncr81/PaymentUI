@@ -61,13 +61,15 @@ export class PayComponent {
         this.isSuccess = true;
 
         window.location.href =
-          "https://scald.shop/payments/iyzico/success/" + this.order.id;
+          `https://${this.brand}.posfix.shop/payments/iyzico/success/` +
+          this.order.id;
       } else {
         this.onProcess = false;
         this.isError = true;
 
         window.location.href =
-          "https://scald.shop/payments/iyzico/cancel/" + this.order.id;
+          `https://${this.brand}.posfix.shop/payments/iyzico/cancel/` +
+          this.order.id;
       }
     });
   }
@@ -136,7 +138,7 @@ export class PayComponent {
       townName: [""], //done
       confirm: [true, Validators.requiredTrue], //onts
       returnURL: [
-        `https://payment.scald.shop/api/Payment/PaymentCallBack?bankCode=`,
+        `https://payment.posfix.shop/api/Payment/PaymentCallBack?bankCode=`,
         Validators.required,
       ], //onts
       customerIPAddress: ["1.1.1.1", Validators.required], //onts
@@ -170,7 +172,7 @@ export class PayComponent {
         this.installmentStr = obj.bin;
         this.httpClient
           .post(
-            `https://payment.scald.shop/api/Payment/GetInstallment?bankCode=9997&merchantID=DASD&merchantUser=${this.checkoutForm.get(
+            `https://payment.posfix.shop/api/Payment/GetInstallment?bankCode=9997&merchantID=DASD&merchantUser=${this.checkoutForm.get(
               "merchantUser"
             )}&merchantPassword=${this.checkoutForm.get(
               "merchantPassword"
@@ -230,7 +232,7 @@ export class PayComponent {
           this.checkoutForm
             .get("phoneNumber")
             ?.setValue(this.user.phone_number);
-          this.checkoutForm.get("taxNumber")?.setValue(this.user.grand_total);
+          this.checkoutForm.get("taxNumber")?.setValue("11111111111");
           this.checkoutForm.get("emailAddress")?.setValue(this.user.email);
         },
       });
@@ -239,7 +241,7 @@ export class PayComponent {
     this.checkoutForm
       .get("returnURL")
       ?.setValue(
-        `https://payment.scald.shop/api/Payment/PaymentCallBack?bankCode=${
+        `https://payment.posfix.shop/api/Payment/PaymentCallBack?bankCode=${
           this.checkoutForm.get("bankCode")?.value
         }&merchantID=${
           this.checkoutForm.get("merchantID")?.value
@@ -284,7 +286,7 @@ export class PayComponent {
     if (this.checkoutForm.valid) {
       this.httpClient
         .post(
-          "https://payment.scald.shop/api/Payment/VirtualPOS3DResponse",
+          "https://payment.posfix.shop/api/Payment/VirtualPOS3DResponse",
           this.checkoutForm.value
         )
         .subscribe({
