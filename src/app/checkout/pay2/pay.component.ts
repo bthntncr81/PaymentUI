@@ -232,6 +232,9 @@ export class PayComponent {
           this.checkoutForm.get("name")?.setValue(this.user.first_name);
           this.checkoutForm.get("surname")?.setValue(this.user.last_name);
           this.checkoutForm
+            .get("testPlatform")
+            ?.setValue(this.db_name == "demo" ? true : false);
+          this.checkoutForm
             .get("phoneNumber")
             ?.setValue(this.user.phone_number);
           this.checkoutForm.get("taxNumber")?.setValue("");
