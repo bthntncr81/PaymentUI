@@ -234,7 +234,7 @@ export class PayComponent {
           this.checkoutForm
             .get("phoneNumber")
             ?.setValue(this.user.phone_number);
-          this.checkoutForm.get("taxNumber")?.setValue("11111111111");
+          this.checkoutForm.get("taxNumber")?.setValue("");
           this.checkoutForm.get("emailAddress")?.setValue(this.user.email);
         },
       });
