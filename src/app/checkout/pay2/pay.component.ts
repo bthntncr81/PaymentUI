@@ -208,6 +208,8 @@ export class PayComponent {
       });
   }
   getOrder() {
+    this.db_name = (this.route.snapshot.queryParams as any).db_id;
+
     this.signalR
       .getOrder(
         (this.route.snapshot.queryParams as any).orderId,
@@ -254,7 +256,6 @@ export class PayComponent {
       });
   }
   getUser(user_id: number) {
-    this.db_name = (this.route.snapshot.queryParams as any).db_id;
     this.signalR
       .getUser(user_id, (this.route.snapshot.queryParams as any).db_id)
       .subscribe({
