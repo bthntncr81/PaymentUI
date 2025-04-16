@@ -217,11 +217,39 @@ export class PayComponent {
         next: (res: any) => {
           this.order = res.data;
           this.checkoutForm.get("amount")?.setValue(this.order.grand_total);
+          var names = this.order.customerName.split(" ");
+          var lastName = names[names.length - 1];
+          (names as Array<string>).splice(names.length - 1, 1);
+          var firstName = "";
+
+          names.forEach((element: string) => {
+            firstName = firstName + " " + element;
+          });
+
+          this.checkoutForm.get("name")?.setValue(firstName);
+          this.checkoutForm.get("surname")?.setValue(lastName);
+          this.checkoutForm
+            .get("testPlatform")
+            ?.setValue(this.db_name == "demo" ? true : false);
+          this.checkoutForm
+            .get("phoneNumber")
+            ?.setValue(this.order.customerNumber);
+          this.checkoutForm.get("taxNumber")?.setValue("");
+          this.checkoutForm
+            .get("emailAddress")
+            ?.setValue(this.order.customerMail);
+          if (this.order.customerAddress) {
+            this.checkoutForm
+              .get("addressDesc")
+              ?.setValue(this.order.customerAddress);
+          }
+
           this.checkoutForm
             .get("orderNumber")
             ?.setValue(this.order.order_number);
-
-          this.getUser(this.order.user_id);
+          if (this.order.user_id) {
+            this.getUser(this.order.user_id);
+          }
         },
       });
   }
